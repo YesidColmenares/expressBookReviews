@@ -123,6 +123,27 @@ public_users.get('/author/:author', async (req, res) => {
     }
 });
 
+// Tarea 12: Obtener libros por autor usando Axios + Async-Await
+public_users.get('/task12/:author', async (req, res) => {
+    try {
+        const author = req.params.author;
+
+        // Llamada HTTP a tu propio endpoint /author/:author
+        const response = await axios.get(`http://localhost:5000/author/${author}`);
+        
+        // response.data contiene los datos filtrados
+        return res.status(200).json({
+            message: `Books fetched successfully for author ${author}`,
+            books: response.data
+        });
+    } catch (err) {
+        return res.status(500).json({
+            message: `Error fetching books for author ${req.params.author}`,
+            error: err.message
+        });
+    }
+});
+
 // Get all books based on title
 public_users.get('/title/:title', async (req, res) => {
     try {
