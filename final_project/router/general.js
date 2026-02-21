@@ -3,6 +3,7 @@ let books = require("./booksdb.js");
 let isValid = require("./auth_users.js").isValid;
 let users = require("./auth_users.js").users;
 const public_users = express.Router();
+const axios = require('axios');
 
 // Función que devuelve los libros como promesa (simula DB asincrónica)
 const getBooksAsync = () => {
@@ -41,6 +42,22 @@ public_users.get('/', async (req, res) => {
         return res.status(200).json(JSON.stringify(allBooks, null, 4));
     } catch (err) {
         return res.status(500).json({ message: err });
+    }
+});
+
+public_users.get('/task10', async (req, res) => {
+    try {
+        // Llamada HTTP a tu propia API usando Axios
+        const response = await axios.get('http://localhost:5000/');
+        const booksList = response.data;
+
+        return res.status(200).json({
+            message: "Books fetched successfully using Axios + Async-Await",
+            books: booksList
+        });
+
+    } catch (err) {
+        return res.status(500).json({ message: "Error fetching books", error: err.message });
     }
 });
 
