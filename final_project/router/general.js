@@ -78,6 +78,28 @@ public_users.get('/isbn/:isbn', async (req, res) => {
     }
 });
 
+// Tarea 11: Obtener detalles de un libro por ISBN usando Axios + Async-Await
+public_users.get('/task11/:isbn', async (req, res) => {
+    try {
+        const isbn = req.params.isbn;
+
+        // Llamada HTTP a tu propio endpoint /isbn/:isbn
+        const response = await axios.get(`http://localhost:5000/isbn/${isbn}`);
+        
+        // response.data contiene los datos del libro
+        return res.status(200).json({
+            message: `Book details fetched successfully for ISBN ${isbn}`,
+            book: response.data
+        });
+    } catch (err) {
+        // Si Axios falla (ej. ISBN no existe o servidor apagado)
+        return res.status(500).json({
+            message: `Error fetching book with ISBN ${req.params.isbn}`,
+            error: err.message
+        });
+    }
+});
+
 // Get book details based on author
 public_users.get('/author/:author', async (req, res) => {
     try {
