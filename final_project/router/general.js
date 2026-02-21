@@ -167,6 +167,27 @@ public_users.get('/title/:title', async (req, res) => {
     }
 });
 
+// Tarea 13: Obtener libros por título usando Axios + Async-Await
+public_users.get('/task13/:title', async (req, res) => {
+    try {
+        const title = req.params.title;
+
+        // Llamada HTTP a tu propio endpoint /title/:title
+        const response = await axios.get(`http://localhost:5000/title/${encodeURIComponent(title)}`);
+        
+        // response.data contiene los datos filtrados
+        return res.status(200).json({
+            message: `Books fetched successfully for title "${title}"`,
+            books: response.data
+        });
+    } catch (err) {
+        return res.status(500).json({
+            message: `Error fetching books with title "${req.params.title}"`,
+            error: err.message
+        });
+    }
+});
+
 //  Get book review
 public_users.get('/review/:isbn', function (req, res) {
 
